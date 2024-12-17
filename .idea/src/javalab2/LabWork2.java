@@ -1,50 +1,63 @@
 import java.util.*;
 
+/**
+ * A class that processes text and sorts its words by the number of occurrences of a given letter.
+ */
 public class LabWork2 {
+
+    // Field to store the input text
     private String textVariable;
 
     /**
-     * Constructor to initialize textVariable and sort words by the number of occurrences of the given letter.
+     * Constructor to initialize the textVariable and sort the words by the number of occurrences of the given letter.
      *
-     * @param text   The input text to be processed.
-     * @param letter The letter to be counted in each word.
+     * @param text   The input text to process.
+     * @param letter The letter to count in each word.
      */
     public LabWork2(String text, char letter) {
         this.textVariable = text;
 
+        // Sort words by the number of occurrences of the specified letter
         List<String> sortedWords = sortWordsByLetterCount(textVariable, letter);
 
+        // Output the sorted words
         System.out.println("Words sorted by occurrences of the letter '" + letter + "':");
         for (String word : sortedWords) {
-            System.out.println(word);  // Виводимо рядок напряму
+            System.out.println(word); // Print each word
         }
     }
 
     /**
-     * Сортує слова у String за кількістю входжень вказаної літери.
+     * Sorts the words in a String by the number of occurrences of the specified letter.
      *
-     * @param text   Вхідний текст у вигляді String.
-     * @param letter Літера, кількість якої потрібно рахувати у кожному слові.
-     * @return Список слів, відсортованих за кількістю входжень літери.
+     * @param text   The input text as a String.
+     * @param letter The letter to count in each word.
+     * @return A list of words sorted by the number of occurrences of the specified letter.
      */
     protected List<String> sortWordsByLetterCount(String text, char letter) {
+        // Split the text into words based on whitespace
         String[] wordsArray = text.split("\\s+");
+
+        // Convert the array of words into a list
         List<String> wordList = new ArrayList<>(Arrays.asList(wordsArray));
 
+        // Sort the words by the number of occurrences of the specified letter
         wordList.sort(Comparator.comparingInt(word -> countLetterOccurrences(word, letter)));
 
         return wordList;
     }
 
     /**
-     * Рахує кількість входжень вказаної літери у слові (String).
+     * Counts the number of occurrences of the specified letter in a word.
      *
-     * @param word   Слово у вигляді String, в якому рахується кількість літер.
-     * @param letter Літера, яку потрібно рахувати.
-     * @return Кількість входжень літери у слові.
+     * @param word   The word in which to count the occurrences of the letter.
+     * @param letter The letter to count.
+     * @return The number of occurrences of the specified letter in the word.
      */
     protected int countLetterOccurrences(String word, char letter) {
         int count = 0;
+
+        // Iterate through each character in the word
         for (int i = 0; i < word.length(); i++) {
             if (word.charAt(i) == letter) {
                 count++;
@@ -53,19 +66,27 @@ public class LabWork2 {
         return count;
     }
 
+    /**
+     * Main method to demonstrate the functionality of the LabWork2 class.
+     *
+     * @param args Command-line arguments (not used in this program).
+     */
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the text: ");
-        String inputText = scanner.nextLine();
+        // Input text to process
+        String inputText = "Програмування це цікаво і корисно. Комп'ютери є невід'ємною частиною сучасного світу.";
+        // The letter to count in the words
+        char letter = 'а';
 
-        validateText(inputText);
-
-        System.out.println("Enter the letter to count: ");
-        char letter = scanner.next().charAt(0);
-
+        // Create a LabWork2 instance to process the text
         new LabWork2(inputText, letter);
     }
 
+    /**
+     * Validates the input text to ensure it meets certain criteria.
+     *
+     * @param text The text to validate.
+     * @throws IllegalArgumentException If the text is null, empty, or consists only of whitespace or punctuation.
+     */
     private static void validateText(String text) {
         if (text == null || text.trim().isEmpty()) {
             throw new IllegalArgumentException("Text cannot be empty or consist only of whitespace.");
